@@ -38,7 +38,7 @@ contract GoldenGate {
 
     Intent[] private _intents;
 
-    event IntentBid(
+    event NewIntentBid(
         uint256 indexed sourceChainId,
         uint256 indexed sourceIntentUid,
         uint256 indexed bidUid,
@@ -168,7 +168,7 @@ contract GoldenGate {
         address forwarding) external payable {
         require(msg.value > 0, "Amount proposed must be greater than 0");
 
-        emit IntentBid(
+        emit NewIntentBid(
             sourceChainId,
             intentUid,
             _bidCounter++,
