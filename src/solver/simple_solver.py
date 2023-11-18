@@ -1,0 +1,30 @@
+from web3 import Web3, HTTPProvider
+from web3.middleware import geth_poa_middleware
+
+chain_contract_abi = [{"inputs":[{"internalType":"address","name":"mailbox","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":False,"inputs":[{"indexed":True,"internalType":"uint256","name":"sourceChainId","type":"uint256"},{"indexed":True,"internalType":"uint256","name":"sourceIntentUid","type":"uint256"},{"indexed":True,"internalType":"uint256","name":"bidUid","type":"uint256"},{"indexed":False,"internalType":"uint256","name":"amountProposed","type":"uint256"}],"name":"IntentBid","type":"event"},{"anonymous":False,"inputs":[{"indexed":True,"internalType":"uint256","name":"intentUid","type":"uint256"},{"indexed":False,"internalType":"uint256","name":"amountDeposited","type":"uint256"},{"indexed":False,"internalType":"uint256","name":"minAmountRecv","type":"uint256"},{"indexed":False,"internalType":"uint256","name":"chainIdDestination","type":"uint256"},{"indexed":False,"internalType":"address","name":"beneficiaryAddress","type":"address"}],"name":"NewIntent","type":"event"},{"inputs":[{"internalType":"uint256","name":"destinationBid","type":"uint256"},{"internalType":"uint256","name":"intentUid","type":"uint256"}],"name":"acceptBid","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint32","name":"domainId","type":"uint32"},{"internalType":"address","name":"handler","type":"address"}],"name":"addChainMapping","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"sourceChainId","type":"uint256"},{"internalType":"uint256","name":"intentUid","type":"uint256"}],"name":"generateKey","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"uint256","name":"bidUid","type":"uint256"}],"name":"getBid","outputs":[{"components":[{"internalType":"uint256","name":"sourceChainId","type":"uint256"},{"internalType":"uint256","name":"intentUid","type":"uint256"},{"internalType":"uint256","name":"amountProposed","type":"uint256"},{"internalType":"address","name":"proposer","type":"address"},{"internalType":"address","name":"destination","type":"address"},{"internalType":"address","name":"forwarding","type":"address"},{"internalType":"bool","name":"executed","type":"bool"},{"internalType":"bool","name":"returned","type":"bool"},{"internalType":"uint256","name":"timestamp","type":"uint256"}],"internalType":"struct GoldenGate.Bid","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"intentUid","type":"uint256"}],"name":"getIntent","outputs":[{"components":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"minAmountRecv","type":"uint256"},{"internalType":"uint32","name":"chainId","type":"uint32"},{"internalType":"address","name":"beneficiaryAddress","type":"address"},{"internalType":"bool","name":"executed","type":"bool"},{"internalType":"bool","name":"returned","type":"bool"},{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"fulfiller","type":"address"},{"internalType":"uint256","name":"timestamp","type":"uint256"}],"internalType":"struct GoldenGate.Intent","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint32","name":"origin","type":"uint32"},{"internalType":"bytes32","name":"sender","type":"bytes32"},{"internalType":"bytes","name":"message","type":"bytes"}],"name":"handleMessage","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"minAmountRecv","type":"uint256"},{"internalType":"uint32","name":"chainIdDestination","type":"uint32"},{"internalType":"address","name":"beneficiary","type":"address"}],"name":"initiateNativeIntent","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"sourceChainId","type":"uint256"},{"internalType":"uint256","name":"intentUid","type":"uint256"},{"internalType":"address","name":"destination","type":"address"},{"internalType":"address","name":"forwarding","type":"address"}],"name":"proposeNativeSolution","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"intentUid","type":"uint256"},{"internalType":"address","name":"destination","type":"address"}],"name":"realseFundsToSettler","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"intentUid","type":"uint256"}],"name":"rejectBids","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"sourceChainId","type":"uint256"},{"internalType":"uint256","name":"intentUid","type":"uint256"},{"internalType":"uint256","name":"bidId","type":"uint256"}],"name":"settleNativeIntent","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"bidUid","type":"uint256"}],"name":"withdrawNativeBid","outputs":[],"stateMutability":"nonpayable","type":"function"}]
+
+def handle_event(event):
+    print(f"Event detected: {event['event']} - {event['args']}")
+
+def main():
+
+    infura_url = "XX"
+    contract_address = Web3.to_checksum_address("0xd58d9ffbfe8881255352da6d1fdccdc2ad483fb4")
+
+    w3 = Web3(HTTPProvider(infura_url))
+    #w3.middleware_stack.inject(geth_poa_middleware, layer=0)
+
+    contract = w3.eth.contract(address=contract_address, abi=chain_contract_abi)
+
+    # Replace 'latest' with the block number you want to start listening from
+    filter_from_block = "latest"
+    
+    event_name = "NewIntent"
+    event_filter = contract.events[event_name].create_filter(fromBlock=filter_from_block)
+
+    while True:
+        for event in event_filter.get_new_entries():
+            handle_event(event)
+
+if __name__ == "__main__":
+    main()
