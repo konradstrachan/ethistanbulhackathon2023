@@ -14,6 +14,8 @@ contract GoldenGate {
     uint256 private _bidCounter;
     address private _mailbox;
 
+    address private _operatorRelayer;
+
     mapping (uint32 => address) _chainMapping;
 
     event NewIntent(
@@ -61,17 +63,24 @@ contract GoldenGate {
 
     mapping (bytes32 => bool) _satisfiedIntents;
 
-    constructor(address mailbox) {
-        _mailbox = mailbox;
+    constructor(address mailbox, address operator) {
         _intentCounter = 0;
         _bidCounter = 0;
 
+        // Trustless message passing via Hyperlane wherever possible
+        _mailbox = mailbox;
+        // Permissioned operator for testing and unsupported chains
+        _operatorRelayer = operator;
+
         // TODO set up allowed chainIds to domains:
         // https://docs.hyperlane.xyz/docs/reference/domains
+        // Blanket allow Sepolia for testing
+        _chainMapping[11155111] = address(operator);
     }
 
-    modifier onlyHyperlaneMailbox() {
-        require(msg.sender == _mailbox);
+    modifier onlyMailbox() {
+        require(msg.sender == _mailbox
+                || msg.sender == _operatorRelayer);
         _;
     }
 
@@ -128,6 +137,12 @@ contract GoldenGate {
         // TODO executed, but not confirmed / finalised? Perhaps there needs to be a new state?
         
         // trigger message to destination chain executing
+
+        if (block.chainid == intent.chainId) {
+            // Sending to the same chain, we can call settleNativeIntent directly
+            settleNativeIntent(block.chainid, intentUid, destinationBid);
+            return 1337;
+        }
 
         // TODO should we lookup to see what the domain id is for the chain or can we assume
         // it will always be the same?
@@ -223,6 +238,12 @@ contract GoldenGate {
 
         payable(selectedBid.destination).transfer(selectedBid.amountProposed);
 
+        if (block.chainid == sourceChainId) {
+            // Sending to the same chain, we can call realseFundsToSettler directly
+            realseFundsToSettler(intentUid, selectedBid.forwarding);
+            return 1337;
+        }
+
         // send message to source chain with forwarding address
 
         address destinationChainHandler = _chainMapping[uint32(sourceChainId)];
@@ -274,7 +295,7 @@ contract GoldenGate {
         uint32 origin,
         bytes32 sender,
         bytes calldata message
-    ) external payable onlyHyperlaneMailbox {
+    ) external payable onlyMailbox {
         (
             uint32 messageType,
             uint256 param1,

@@ -11,6 +11,6 @@ Smart contract
 
 Seeker reference implementation
 
-[ ] Watch for a record, take parameters from record
-[ ] Supply bid that satifies intent
-[ ] ..?
+[x] Watch for a record, take parameters from record
+[x] Supply bid that satifies intent
+[x] ..?
