@@ -163,8 +163,8 @@ def submit_bid_acceptance(args):
 
 def main():
     print("")
-    print("Test of briding intents execution using GoldenGate")
-    print("----------------------------------------------------")
+    print("Test of GoldenGate bridging intents execution")
+    print("----------------------------------------------")
     print("😁 User will submit an intent to bridge which will be picked up by a solver and filled")
     print("🤖 Bot will attempt to bid to fill this intent and provide the bridging service")
     print("")
