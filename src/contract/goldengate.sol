@@ -75,7 +75,7 @@ contract GoldenGate {
         // TODO set up allowed chainIds to domains:
         // https://docs.hyperlane.xyz/docs/reference/domains
         // Blanket allow Sepolia for testing
-        _chainMapping[11155111] = address(operator);
+        _chainMapping[11155111] = address(operator);   
     }
 
     modifier onlyMailbox() {
@@ -132,6 +132,8 @@ contract GoldenGate {
         require(msg.sender == intent.owner, "Only owner can accept");
         require(!intent.executed, "Intent already executed");
         require(!intent.returned, "Intent already returned");
+        // Allow a reasonable RFQ window for solvers to propose
+        require(block.timestamp >= intent.timestamp + 30 seconds, "Can't accept yet");
         
         intent.executed = true;
         // TODO executed, but not confirmed / finalised? Perhaps there needs to be a new state?
@@ -166,7 +168,7 @@ contract GoldenGate {
         require(msg.sender == intent.owner, "Only owner can reject");
         require(!intent.executed, "Intent already executed");
         require(!intent.returned, "Intent already returned");
-        require(block.timestamp >= intent.timestamp + 1 hours, "Can't reject yet");
+        require(block.timestamp >= intent.timestamp + 30 minutes, "Can't reject yet");
         
         intent.returned = true;
         payable(intent.owner).transfer(intent.amount);
@@ -212,6 +214,7 @@ contract GoldenGate {
         require(!selectedBid.executed, "Bid has already been executed!");
         require(!selectedBid.returned, "Bid has already been returned!");
         require(selectedBid.proposer == msg.sender, "Only the proposer can withdraw!");
+        require(block.timestamp >= selectedBid.timestamp + 30 minutes, "Can't withdraw yet!");
         // Prevent refunding settlement later
         selectedBid.returned = true;
         payable(selectedBid.proposer).transfer(selectedBid.amountProposed);
