@@ -4,7 +4,7 @@
 
 ## Problem description
 
-We have intents based execution for swapping and limit-like orders. For better or worse this exists and has advantages for users.
+We have intents based execution for swapping and limit-like orders. For better or worse this exists and has advantages for users around UX and reducing the impact of MEV.
 
 What we haven't seen yet is the same approach applied to bridging - bridges often involve complex trust assumptions or use of multiple parties with variable finality. What if we changed that to make an Intents based Bridging protocol?
 
@@ -12,7 +12,13 @@ Suddenly users can specify their finality needs and solvers can source liquidity
 
 ## What is GoldenGate
 
-TODO
+GG is a bridge (get it?) protocol tailored to 
+
+i.e. "I have 10 ETH on Polygon and I want it to be transferred to Base and get at least 9.98 ETH back within 30 seconds"
+
+Stretch goal - prehooks for executing based on some event - could this be connected to Uma?
+
+This would be broadcast to a solver pool off chain which can decide on how to fulfil the bridging.
 
 # Design
 
@@ -68,15 +74,23 @@ If there are no bids, the intents proposer can withdraw their intent and funds a
 
 # Technology used
 
-* EVM / Solidity
-* Hyperlane
+* Smart contracts were written in Solidity and deployed on numerous chains to allow for bridging
+* Message passing between chains is achieved trustlessly using Hyperlane
+* Solver reference was implemented in Python
 
 # Supported chains
 
-* Sepolia
-* Chiliz
-* Scroll
-* Mantle
-* CELO
-* Base
-* Neon EVM
+* Sepolia - https://sepolia.etherscan.io/address/0x246c7802c82598bff1521eea314cf3beabc33197
+* Chiliz - Deployed but issues with blockexplorer?
+* Scroll - https://sepolia.scrollscan.com/address/0xbca10b3abf218ab63d967c4282343b3e0308a15b
+* Arbitrum - https://goerli.arbiscan.io/address/0x4dc36fcc192c042fc49fe934d86e8942d79c4e93#code
+* Mantle - https://explorer.testnet.mantle.xyz/address/0xF07b86d5DCd3165A23438bc37a8964128a94c7f0
+* CELO - https://explorer.celo.org/alfajores/address/0x4DC36FCc192c042fC49Fe934D86E8942D79c4e93 (issue verifying contract?)
+* Neon EVM - https://devnet.neonscan.org/address/0x35461b3ba63aa1764b46778570d8e369ea3cff86
+
+# Future work
+
+* Support EIP7512 and make intents expression more dynamic
+* Adding custom logic hooks for pre and post bridging
+* Better fee mechanism to handle Hyperlane cost of message exchange
+* Shielding the bidding process to make the solvers more competive (and honest?)

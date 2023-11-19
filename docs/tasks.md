@@ -14,3 +14,12 @@ Seeker reference implementation
 [x] Watch for a record, take parameters from record
 [x] Supply bid that satifies intent
 [x] ..?
+
+Deployment
+
+[x] Sepolia
+[x] Scroll
+[?] Chiliz
+[x] Arbitrum
+[x] NeonEVM
+[ ] Base

@@ -154,6 +154,7 @@ contract GoldenGate {
 
         bytes memory encodedData = encodeSettlementForBid(block.chainid, intentUid, destinationBid);
 
+        // TODO bugfix send small amount of native token to pay for sending msg
         uint256 result = IHyperlaneMailbox(_mailbox).dispatch(
                 intent.chainId,
                 addressToBytes32(destinationChainHandler),
@@ -254,6 +255,7 @@ contract GoldenGate {
 
         bytes memory encodedData = encodeReleaseFunds(intentUid, selectedBid.forwarding);
 
+        // TODO bugfix send small amount of native token to pay for sending msg
         uint256 result = IHyperlaneMailbox(_mailbox).dispatch(
                 uint32(sourceChainId),
                 addressToBytes32(destinationChainHandler),
