@@ -128,9 +128,10 @@ If there are no bids, the intents proposer can withdraw their intent and funds a
 # Supported chains
 
 * Sepolia - https://sepolia.etherscan.io/address/0x246c7802c82598bff1521eea314cf3beabc33197
-* Chiliz - Deployed but issues with blockexplorer?
+* Chiliz - Deployed at block 8953509 but issues with blockexplorer?
 * Scroll - https://sepolia.scrollscan.com/address/0xbca10b3abf218ab63d967c4282343b3e0308a15b
 * Arbitrum - https://goerli.arbiscan.io/address/0x4dc36fcc192c042fc49fe934d86e8942d79c4e93#code
+* Gnosis - https://gnosis-chiado.blockscout.com/address/0x4DC36FCc192c042fC49Fe934D86E8942D79c4e93
 * Mantle - https://explorer.testnet.mantle.xyz/address/0xF07b86d5DCd3165A23438bc37a8964128a94c7f0
 * CELO - https://explorer.celo.org/alfajores/address/0x4DC36FCc192c042fC49Fe934D86E8942D79c4e93 (issue verifying contract?)
 * Neon EVM - https://devnet.neonscan.org/address/0x35461b3ba63aa1764b46778570d8e369ea3cff86
