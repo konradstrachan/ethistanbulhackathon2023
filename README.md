@@ -16,15 +16,23 @@ Suddenly users can specify their finality needs and solvers can source liquidity
 
 ## What is GoldenGate
 
-![image](https://github.com/konradstrachan/ethistanbulhackathon2023/assets/21056525/42550617-bc6c-40dc-a5ab-abf1966bd33a)
+![image](https://github.com/konradstrachan/ethistanbulhackathon2023/assets/21056525/021499af-5867-4ad1-83f4-578dfb31f00e)
 
-GG is a bridge (get it?) protocol tailored to 
+GG is a bridge (get it?) protocol that makes it easier, cheaper and safer to bridge between chains whilst improving the UX.
 
-i.e. "I have 10 ETH on Polygon and I want it to be transferred to Base and get at least 9.98 ETH back within 30 seconds"
+Users can express their needs in the form of a structured intent:
 
-Stretch goal - prehooks for executing based on some event - could this be connected to Uma?
+```
+i.e. "I have 10 ETH on Polygon and I want it to be transferred to CELO and get at least 9.98 ETH back within 30 seconds"
+```
 
-This would be broadcast to a solver pool off chain which can decide on how to fulfil the bridging.
+is translated to:
+
+```
+{ source_chain: 1101, destination_chain: 42220, input_token: ETH, output_token: ETH, input_amount: 10.0, minimum_output: 9.98, time_limit_seconds: 30 }
+```
+
+which can then supplied to Solvers who then compete to provide the most compelling bid to satisfy this requirement.
 
 # Design
 
