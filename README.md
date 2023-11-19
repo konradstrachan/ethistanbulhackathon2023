@@ -137,7 +137,7 @@ If there are no bids, the intents proposer can withdraw their intent and funds a
 
 # Future work
 
-* Support EIP7512 and make intents expression more dynamic
+* Support EIP7521 (https://eips.ethereum.org/EIPS/eip-7521) and make intents expression more dynamic and standards aligned
 * Adding custom logic hooks for pre and post bridging
 * Better fee mechanism to handle Hyperlane cost of message exchange
 * Shielding the bidding process to make the solvers more competive (and honest?)
