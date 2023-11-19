@@ -1,5 +1,9 @@
 # GoldenGate (bridge)
 
+![image](https://github.com/konradstrachan/ethistanbulhackathon2023/assets/21056525/110ae58a-d405-4787-b902-4b464c7a104a)
+
+This project was during the ETH Global Istanbul 2023 hackathon.
+
 # Introduction
 
 ## Problem description
@@ -11,6 +15,8 @@ What we haven't seen yet is the same approach applied to bridging - bridges ofte
 Suddenly users can specify their finality needs and solvers can source liquidity using their own risk models and inventory to fulfil orders at no risk to the user.
 
 ## What is GoldenGate
+
+![image](https://github.com/konradstrachan/ethistanbulhackathon2023/assets/21056525/42550617-bc6c-40dc-a5ab-abf1966bd33a)
 
 GG is a bridge (get it?) protocol tailored to 
 
