@@ -1,12 +1,10 @@
 # GoldenGate (bridge)
 
-![image](https://github.com/konradstrachan/ethistanbulhackathon2023/assets/21056525/1aa81314-c246-409e-b25d-d9a624fd0c8b)
-
-This project won the Hyperlane 2nd Best Interchain App and Best on Scroll at ETH Global Istanbul 2023 ❤️
-
 ![image](https://github.com/konradstrachan/ethistanbulhackathon2023/assets/21056525/110ae58a-d405-4787-b902-4b464c7a104a)
 
-This project was built during the ETH Global Istanbul 🇹🇷 2023 hackathon.
+This project was built during the ETH Global Istanbul 🇹🇷 2023 hackathon and won the Hyperlane 2nd Best Interchain App and Best on Scroll prizes ❤️
+
+![image](https://github.com/konradstrachan/ethistanbulhackathon2023/assets/21056525/1aa81314-c246-409e-b25d-d9a624fd0c8b)
 
 # Introduction
 
